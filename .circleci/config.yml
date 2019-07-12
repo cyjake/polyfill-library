@@ -909,6 +909,22 @@ jobs:
           command: node ./test/polyfills/test-individual-feature.js
             String.prototype.trim
       - run:
+          name: Testing String.prototype.trimEnd
+          no_output_timeout: 180m
+          command: node ./test/polyfills/test-individual-feature.js
+            String.prototype.trimEnd
+  test_13:
+    docker:
+      - image: circleci/node:10
+    steps:
+      - checkout
+      - run: npm ci
+      - run:
+          name: Testing String.prototype.trimStart
+          no_output_timeout: 180m
+          command: node ./test/polyfills/test-individual-feature.js
+            String.prototype.trimStart
+      - run:
           name: Testing Symbol.prototype.description
           no_output_timeout: 180m
           command: node ./test/polyfills/test-individual-feature.js
@@ -1082,4 +1098,15 @@ workflows:
             - lint_js
             - unit_tests
             - test_11
+      - test_13:
+          filters:
+            tags:
+              ignore: /^v.*/
+            branches:
+              ignore: master
+          requires:
+            - check_circle_config
+            - lint_js
+            - unit_tests
+            - test_12
 
